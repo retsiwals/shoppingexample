@@ -15,6 +15,7 @@ import {
   put,
   del,
   requestBody,
+  HttpErrors
 } from '@loopback/rest';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
@@ -46,7 +47,21 @@ export class UserController {
     })
     user: Omit<User, 'id'>,
   ): Promise<User> {
-    return this.userRepository.create(user);
+    // return this.userRepository.create(user);
+    try {
+      // create the new user
+      const savedUser = await this.userRepository.create(user);
+      // delete savedUser.password;
+
+      return savedUser;
+    } catch (error) {
+      // MongoError 11000 duplicate key
+      if (error.code === 11000 && error.errmsg.includes('index: uniqueUsername')) {
+        throw new HttpErrors.Conflict('Username value is already taken');
+      } else {
+        throw error;
+      }
+    }
   }
 
   @get('/users/count', {
