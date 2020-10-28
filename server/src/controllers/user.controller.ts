@@ -19,7 +19,9 @@ import {
 } from '@loopback/rest';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
-
+import {hash} from 'bcryptjs'
+import {promisify} from 'util'
+const hashAsync = promisify(hash)
 export class UserController {
   constructor(
     @repository(UserRepository)
@@ -46,10 +48,9 @@ export class UserController {
       },
     })
     user: Omit<User, 'id'>,
-  ): Promise<User> {
-    // return this.userRepository.create(user);
+  ): Promise<User> { 
     try {
-      // create the new user
+      user.password = await hashAsync(user.password, 10)
       const savedUser = await this.userRepository.create(user);
       // delete savedUser.password;
 
