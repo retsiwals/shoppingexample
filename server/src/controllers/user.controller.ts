@@ -87,12 +87,8 @@ export class UserController {
   async login(
     @requestBody(CredentialsRequestBody) credentials: Credentials,
   ): Promise<{ token: string }> {
-    // ensure the user exists, and the password is correct
     const user = await this.userService.verifyCredentials(credentials);
-    // convert a User object into a UserProfile object (reduced set of properties)
     const userProfile = this.userService.convertToUserProfile(user);
-
-    // create a JSON Web Token based on the user profile
     const token = await this.jwtService.generateToken(userProfile);
     return { token };
   }
@@ -145,10 +141,6 @@ export class UserController {
     })
     newUserRequest: NewUserRequest,
   ): Promise<User> {
-    // const password = await hash(newUserRequest.password, await genSalt());
-    // const savedUser = await this.userRepository.create(
-    //   _.omit(newUserRequest, 'password'),
-    // );
     try {
       const password = await hash(newUserRequest.password, await genSalt());
       const savedUser = await this.userRepository.create(
@@ -163,9 +155,6 @@ export class UserController {
       } else {
         throw error;
       }
-      // await this.userRepository.userCredentials(savedUser.id).create({password});
-
-      // return savedUser;
     }
   }
 }
