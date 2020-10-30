@@ -9,6 +9,14 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {AuthenticationComponent} from '@loopback/authentication';
+import {
+  JWTAuthenticationComponent,
+  SECURITY_SCHEME_SPEC,
+  UserServiceBindings,
+  MyUserService
+} from '@loopback/authentication-jwt';
+import {UserDataSource} from './datasources';
 
 export {ApplicationConfig};
 
@@ -40,5 +48,11 @@ export class ShoppingExampleApplication extends BootMixin(
         nested: true,
       },
     };
+    this.component(AuthenticationComponent);
+    // Mount jwt component
+    this.component(JWTAuthenticationComponent);
+    // Bind datasource
+    this.dataSource(UserDataSource, UserServiceBindings.DATASOURCE_NAME);
+    this.bind(UserServiceBindings.USER_SERVICE).toClass(MyUserService);
   }
 }

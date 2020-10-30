@@ -1,19 +1,16 @@
-import {Entity, model, property} from '@loopback/repository';
+import { Entity, model, property } from '@loopback/repository';
 
-@model({
-  settings: {
-    indexes: {
-      uniqueUsername: {
-        keys: {
-          username: 1,
-        },
-        options: {
-          unique: true,
-        },
-      },
+@model({settings: {
+  indexes: {
+  uniqueEmail: {
+    keys: {
+      email: 1,
+    },
+    options: {
+      unique: true,
     },
   },
-})
+},}})
 export class User extends Entity {
   @property({
     type: 'string',
@@ -26,19 +23,18 @@ export class User extends Entity {
     type: 'string',
     required: true,
   })
-  username: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  password: string;
+  email: string;
 
   @property({
     type: 'string',
   })
   name?: string;
 
+  // Define well-known properties here
+
+  // Indexer property to allow additional data
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [prop: string]: any;
 
   constructor(data?: Partial<User>) {
     super(data);
