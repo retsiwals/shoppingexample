@@ -1,6 +1,6 @@
 import {Entity, model, property} from '@loopback/repository';
 
-@model({settings: {strict: false}})
+@model()
 export class Product extends Entity {
   @property({
     type: 'string',
@@ -31,11 +31,10 @@ export class Product extends Entity {
   })
   description?: string;
 
-  // Define well-known properties here
-
-  // Indexer property to allow additional data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [prop: string]: any;
+  @property({
+    type: 'string',
+  })
+  details?: string;
 
   constructor(data?: Partial<Product>) {
     super(data);

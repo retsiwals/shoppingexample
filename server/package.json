@@ -49,12 +49,14 @@
   "dependencies": {
     "@loopback/authentication": "^7.0.2",
     "@loopback/authentication-jwt": "^0.7.2",
+    "@loopback/authorization": "^0.7.2",
     "@loopback/boot": "^3.0.2",
     "@loopback/core": "^2.11.0",
     "@loopback/repository": "^3.1.0",
     "@loopback/rest": "^8.0.0",
     "@loopback/rest-explorer": "^3.0.2",
     "@loopback/service-proxy": "^3.0.2",
+    "isemail": "^3.2.0",
     "loopback-connector-mongodb": "^5.4.0",
     "tslib": "^2.0.0"
   },
