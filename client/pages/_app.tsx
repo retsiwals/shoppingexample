@@ -1,15 +1,27 @@
-import '../styles/globals.css'
-
-// function MyApp({ Component, pageProps }) {
-//   return <Component {...pageProps} />
-// }
-
-// export default MyApp
 // import App from "next/app";
 import type { AppProps /*, AppContext */ } from 'next/app'
+import App from 'next/app'
+import Head from 'next/head'
+import userStore from '../stores/userStore'
+import {Provider,observer} from 'mobx-react'
+import productStore from '../stores/productStore'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+class MyApp extends App {
+  render() {
+    const { Component, pageProps } = this.props
+    return (
+      <Provider userStore = {userStore} producStore={productStore}>
+        <Head>
+          {/* <script
+            type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnRNlXdpEKgmXveCIyDI9dh-brv_tqiYM&libraries=places"
+          ></script> */}
+        </Head>
+        <Component {...pageProps} />
+        {/* <ToastContainer /> */}
+      </Provider>
+    )
+  }
 }
 
 // Only uncomment this method if you have blocking data requirements for
