@@ -66,7 +66,7 @@ class UserStore {
           this.password = ''
           
           if (data.token) {
-            router.push('/shopping')
+            // router.push('/shopping')
             getUserId(this.token).then(data => {
               this.userId = data.id
             })
