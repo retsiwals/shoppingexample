@@ -1,4 +1,4 @@
-import { makeObservable, observable, autorun, action } from 'mobx'
+import { makeObservable, observable, autorun, action, runInAction } from 'mobx'
 import { getProduct } from '../api'
 class ProductStore {
   @observable productList = []
@@ -7,8 +7,11 @@ class ProductStore {
   }
   @action loadProduct = () => {
     getProduct().then(data => {
-      this.productList = data
+      runInAction(() => {
+        this.productList = data
+      })
     })
+    .catch(err=> console.log(err))
   }
 }
 const productStore = new ProductStore()

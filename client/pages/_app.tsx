@@ -10,7 +10,7 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props
     return (
-      <Provider userStore = {userStore} producStore={productStore}>
+      <Provider userStore = {userStore} productStore={productStore}>
         <Head>
           {/* <script
             type="text/javascript"

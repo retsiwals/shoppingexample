@@ -1,10 +1,15 @@
-import { makeObservable, observable, autorun, action } from 'mobx'
+import { makeObservable, observable, autorun, action, runInAction } from 'mobx'
+import { getUserId } from '../api'
+import {useRouter} from 'next/router'
 import MainPage from '../pages/shopping'
+
+const router = useRouter()
 class UserStore {
+  @observable userId: string = ''
   @observable email: string = ''
   @observable password: string = ''
   @observable token: string = ''
-  @observable isEnable: boolean = false
+  @observable isEnable: string = ""
   constructor() {
     makeObservable(this)
   }
@@ -55,19 +60,28 @@ class UserStore {
 
     }).then(respond => { return respond.json() })
       .then(data => {
-        this.token = data.token
-        this.email = ''
-        this.password = ''
-        if(data.token){
-          window.location.href = '/shopping'
-        }
-      })
+        runInAction(() => {
+          this.token = data.token
+          this.email = ''
+          this.password = ''
+          
+          if (data.token) {
+            router.push('/shopping')
+            getUserId(this.token).then(data => {
+              this.userId = data.id
+            })
+            
+            
+          }
+        })
 
+      })
     
   }
   @action Logout = () => {
     this.token = ''
-    this.isEnable = true
+    this.isEnable = "block"
+    this.userId = ''
   }
 }
 const userStore = new UserStore()

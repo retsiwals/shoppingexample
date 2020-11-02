@@ -13,7 +13,7 @@ class SignUp extends React.Component {
     // const userStore = this.props.userStore
     return (
       <div>
-        <Link href='../../shopping'><p>Home</p></Link>
+        <Link href='../../shopping'><button>Home</button></Link>
         <p>Sign Up</p>
         <input 
         type="text" 
